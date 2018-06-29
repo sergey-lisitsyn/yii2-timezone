@@ -1,0 +1,21 @@
+{
+    "name": "nikosmart/yii2-weather-client",
+    "description": "Weather Client based on Weather Underground",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Sergey",
+            "email": "sergej.lisitsyn@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "nikosmart\\weather\\": ""
+        }
+    }
+}
