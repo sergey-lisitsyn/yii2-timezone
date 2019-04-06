@@ -1,14 +1,15 @@
 {
-    "name": "nikosmart/yii2-timezone",
-	"description": "Timezone client based on Google Timezone APIs with the possibility of extension with another providers.",
-    "type": "yii2-extension",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Sergey Lisitsyn",
-            "email": "sergej.lisitsyn@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {}
+	"name" : "nikosmart/yii2-timezone",
+	"description" : "Timezone client based on Google Timezone APIs with the possibility of extension with another providers.",
+	"type" : "yii2-extension",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Sergey Lisitsyn",
+			"email" : "sergej.lisitsyn@gmail.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"require" : {
+		"2amigos/yii2-google-maps-library" : "~1.1"
+	}
 }

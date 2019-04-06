@@ -1,22 +1,19 @@
 <?php
-
+/**
+ * @copyright 2019
+ * @license http://www.gnu.org/ GNU-2 License
+ */
 namespace nikosmart\timezone;
 
+use Yii;
 use yii\helpers\ArrayHelper;
-use yii\base\BaseObject;
+use dosamigos\google\maps\ClientAbstract;
 
 /**
  * TimezoneDetect class.
  */
-class TimezoneDetect extends BaseObject
+class TimezoneDetect extends ClientAbstract
 {
-    
-    /** @var array the request parameters */
-    public $params = [];
-    
-    private $_hours;
-    
-    private $_minutes;
     
     /**
      * @inheritdoc
@@ -26,12 +23,14 @@ class TimezoneDetect extends BaseObject
     {
         $this->params = ArrayHelper::merge(
             [
-                'lang' => null,
+                'timestamp' => time(),
                 'lat' => null,
                 'lng' => null,
             ],
-            $config
+            $this->params
         );
+        
+        parent::__construct($config);
     }
     
     /**
@@ -39,27 +38,49 @@ class TimezoneDetect extends BaseObject
      */
     public function init()
     {
-        $this->params['key'] = @Yii::$app->params['googleMapsApiKey'] ? : null;
-    }
-    
-    public function getHours()
-    {
-        return $this->_hours;
-    }
-    
-    public function getMinutes()
-    {
-        return $this->_minutes;
+        $this->params['key'] = Yii::$app->params['googleTimeZoneApiKey'] ? : '';
+        //$this->format = 'xml';
     }
     
     /**
-     * @return \nikosmart\timezone\TimezoneDetect
+     * Returns the api url
+     * @return string
      */
-    public function getTimeByCoords()
+    public function getUrl()
     {
-        $this->_hours = 0;
-        $this->_minutes = 0;
-        
-        return $this;
+        return "https://maps.googleapis.com/maps/api/timezone/{$this->format}?" .
+            "location={$this->params['lat']},{$this->params['lng']}" .
+            "&timestamp={$this->params['timestamp']}" .
+            "&key=" . $this->params['key'];
+    }
+    
+    /**
+     * Makes a timezone request.
+     * https://maps.googleapis.com/maps/api/timezone/json?
+     *  location=38.908133,-77.047119&timestamp=1458000000&key=YOUR_API_KEY
+     * @see https://developers.google.com/maps/documentation/timezone/start
+     * @param array $params parameters for the request.
+     *
+     * @return mixed|null
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function request($params = [], $options = [])
+    {
+        try {
+            $this->params = ArrayHelper::merge(
+                $this->params,
+                $params
+                );
+            
+            $response = $this->getClient()
+            ->get($this->getUrl(), $options);
+            
+            return $this->format == 'json'
+                ? $response->json()
+                : $response->xml();
+                
+        } catch (RequestException $e) {
+            return null;
+        }
     }
 }

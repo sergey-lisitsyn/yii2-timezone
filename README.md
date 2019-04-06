@@ -28,10 +28,10 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= $time = (new \nikosmart\timezone\TimezoneDetect(['lat'=>0, 'lng'=>0]))
-    ->getTimeByCoords() ?>
-can get
-$time->hours
-and
-$time->minutes
+<?= $time = (new \nikosmart\timezone\TimezoneDetect())
+    ->request([
+        'lat'=>46.965900,
+        'lng'=>31.997400
+    ]);
+?>
 ```
