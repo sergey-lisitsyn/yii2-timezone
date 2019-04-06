@@ -1,6 +1,7 @@
 <?php
 /**
- * @copyright 2019
+ * @copyright2019
+
  * @license http://www.gnu.org/ GNU-2 License
  */
 namespace nikosmart\timezone;
@@ -8,9 +9,52 @@ namespace nikosmart\timezone;
 use Yii;
 use yii\helpers\ArrayHelper;
 use dosamigos\google\maps\ClientAbstract;
+use app\models\Language;
 
 /**
  * TimezoneDetect class.
+ * 
+ * @return
+ * dstOffset: the offset for daylight-savings time in seconds. This will be zero 
+ *      if the time zone is not in Daylight Savings Time during the specified timestamp.
+ * rawOffset: the offset from UTC (in seconds) for the given location. This does 
+ *      not take into effect daylight savings.
+ * timeZoneId: a string containing the ID of the time zone, such as "America/Los_Angeles" 
+ *      or "Australia/Sydney". These IDs are defined by Unicode Common Locale Data 
+ *      Repository (CLDR) project, and currently available in file timezone.xml. 
+ *      When a timezone has several IDs, the canonical one is returned. 
+ *      In timezone.xml, this is the first alias of each timezone. 
+ *      For example, "Asia/Calcutta" is returned, not "Asia/Kolkata".
+ * timeZoneName: a string containing the long form name of the time zone. 
+ *      This field will be localized if the language parameter is set. eg. 
+ *      "Pacific Daylight Time" or "Australian Eastern Daylight Time"
+ * status: a string indicating the status of the response.
+ *    OK indicates that the request was successful.
+ *    INVALID_REQUEST indicates that the request was malformed.
+ *    OVER_DAILY_LIMIT indicates any of the following:
+ *        The API key is missing or invalid.
+ *        Billing has not been enabled on your account.
+ *        A self-imposed usage cap has been exceeded.
+ *        The provided method of payment is no longer valid (for example, a credit 
+ *        card has expired).
+ *    
+ *    See the Maps FAQ to learn how to fix this.
+ *    OVER_QUERY_LIMIT indicates the requestor has exceeded quota.
+ *    REQUEST_DENIED indicates that the API did not complete the request. 
+ *    Confirm that the request was sent over HTTPS instead of HTTP.
+ *    UNKNOWN_ERROR indicates an unknown error.
+ *    ZERO_RESULTS indicates that no time zone data could be found for the specified 
+ *    position or time. Confirm that the request is for a location on land, 
+ *    and not over water.
+ * 
+ * errorMessage: more detailed information about the reasons behind the given 
+ *      status code, if other than OK.
+ *      
+ * Calculating the Local Time
+ * The local time of a given location is the sum of the timestamp parameter, 
+ *      and the dstOffset and rawOffset fields from the result.
+ * 
+ * 
  */
 class TimezoneDetect extends ClientAbstract
 {
@@ -23,6 +67,7 @@ class TimezoneDetect extends ClientAbstract
     {
         $this->params = ArrayHelper::merge(
             [
+                'language' => Language::getCurrent()->lang, // optional, defaults to 'en'
                 'timestamp' => time(),
                 'lat' => null,
                 'lng' => null,
@@ -51,6 +96,7 @@ class TimezoneDetect extends ClientAbstract
         return "https://maps.googleapis.com/maps/api/timezone/{$this->format}?" .
             "location={$this->params['lat']},{$this->params['lng']}" .
             "&timestamp={$this->params['timestamp']}" .
+            "&language={$this->params['language']}" .
             "&key=" . $this->params['key'];
     }
     
@@ -70,10 +116,10 @@ class TimezoneDetect extends ClientAbstract
             $this->params = ArrayHelper::merge(
                 $this->params,
                 $params
-                );
+            );
             
             $response = $this->getClient()
-            ->get($this->getUrl(), $options);
+                ->get($this->getUrl(), $options);
             
             return $this->format == 'json'
                 ? $response->json()

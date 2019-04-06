@@ -34,4 +34,9 @@ Once the extension is installed, simply use it in your code by  :
         'lng'=>31.997400
     ]);
 ?>
+According to google 
+Calculating the Local Time
+
+The local time of a given location is the sum of the timestamp parameter, 
+and the dstOffset and rawOffset fields from the result.
 ```
