@@ -13,5 +13,9 @@
 	"require" : {
 		"php": "^7.2",
 		"2amigos/yii2-google-maps-library" : "~1.1"
-	}
+	},
+	"autoload": {
+	    "psr-4": {
+		"nikosmart\\yii2-timezone\\": ""
+	    }
 }
