@@ -1,14 +1,13 @@
 <?php
 /**
  * @copyright 2019, SL
- * @version 1.0.3
+ * @version 1.0.4
  * @license MIT License
  */
 namespace nikosmart\timezone;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use ClientAbstract;
 
 /**
  * TimezoneDetect class.
