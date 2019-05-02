@@ -40,3 +40,4 @@ According to google this request should calculate the Local Time.
 
 The local time of a given location is the sum of the timestamp parameter, 
 and the dstOffset and rawOffset fields from the result.
+For more details see https://developers.google.com/maps/documentation/timezone/start

@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright 2019, SL
- * @version 1.0.6
+ * @version 1.0.7
  * @license MIT License
  */
 namespace nikosmart\timezone;
