@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright2019
-
- * @license http://www.gnu.org/ GNU-2 License
+ * @copyright 2019, SL
+ * @version 1.0.2
+ * @license MIT License
  */
 namespace nikosmart\timezone;
 
