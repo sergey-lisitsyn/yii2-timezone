@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright 2019, SL
- * @version 1.0.4
+ * @version 1.0.5
  * @license MIT License
  */
 namespace nikosmart\timezone;
@@ -56,6 +56,7 @@ use yii\helpers\ArrayHelper;
  */
 class TimezoneDetect extends ClientAbstract
 {
+    /** Default language */
     const DEFAULT_LANGUAGE = 'en';
     
     /**
@@ -64,11 +65,11 @@ class TimezoneDetect extends ClientAbstract
      */
     public function __construct($config = [])
     {
-        $language = (explode('-', Yii::$app->language))[0];
+        $language = (explode('-', Yii::$app->language))[0]??self::DEFAULT_LANGUAGE;
         
         $this->params = ArrayHelper::merge(
             [
-                'language' => !empty($language) ? $language : self::DEFAULT_LANGUAGE, // optional, defaults to 'en'
+                'language' => $language, // optional, defaults to 'en'
                 'timestamp' => time(),
                 'lat' => null,
                 'lng' => null,
