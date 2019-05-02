@@ -35,8 +35,8 @@ Once the extension is installed, simply use it in your code by  :
     ]);
 ?>
 ```
-According to google 
-Calculating the Local Time
+
+According to google this request should calculate the Local Time.
 
 The local time of a given location is the sum of the timestamp parameter, 
 and the dstOffset and rawOffset fields from the result.
