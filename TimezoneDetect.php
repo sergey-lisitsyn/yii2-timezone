@@ -9,7 +9,6 @@ namespace nikosmart\timezone;
 use Yii;
 use yii\helpers\ArrayHelper;
 use dosamigos\google\maps\ClientAbstract;
-use app\models\Language;
 
 /**
  * TimezoneDetect class.
@@ -58,6 +57,7 @@ use app\models\Language;
  */
 class TimezoneDetect extends ClientAbstract
 {
+    const DEFAULT_LANGUAGE = 'en';
     
     /**
      * @inheritdoc
@@ -65,9 +65,11 @@ class TimezoneDetect extends ClientAbstract
      */
     public function __construct($config = [])
     {
+        $language = (explode('-', Yii::$app->language))[0];
+        
         $this->params = ArrayHelper::merge(
             [
-                'language' => Language::getCurrent()->lang, // optional, defaults to 'en'
+                'language' => !empty($language) ? $language : self::DEFAULT_LANGUAGE, // optional, defaults to 'en'
                 'timestamp' => time(),
                 'lat' => null,
                 'lng' => null,
