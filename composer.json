@@ -2,7 +2,7 @@
 	"name" : "nikosmart/yii2-timezone",
 	"description" : "Timezone client based on Google Timezone APIs with the possibility of extension with another providers.",
 	"type" : "yii2-extension",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Sergey Lisitsyn",
@@ -11,7 +11,7 @@
 	],
 	"minimum-stability" : "dev",
 	"require" : {
-		"php": "^7.4",
+		"php": "^7",
 		"yiisoft/yii2" : "*",
 		"guzzlehttp/guzzle" : "6.*"
 	},
